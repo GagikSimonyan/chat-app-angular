@@ -6,16 +6,17 @@ const io = require('socket.io')(http, {
     }
 });
 
-app.get('/', (req, res) => {
-    res.send('<h1>Hey Socket.io</h1>');
-});
 
 io.on('connection', (socket) => {
     console.log('a user connected');
+    console.log('Socket ID : ', socket.id)
 
-    socket.on('my message', (msg) => {
-        // console.log('message: ' + msg);
-        io.emit('my broadcast', `server: ${msg}`);
+    //'message' event is received by our server
+    socket.on('message', (data) => {
+        console.log(data);
+        //server ‘emits’ or sends an event out to all users connected
+        // to this Socket instance
+        io.emit('message', `${socket.id.substr(0, 2)} said ${data.message}`);
     });
 });
 
