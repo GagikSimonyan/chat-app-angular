@@ -8,20 +8,15 @@ const io = require('socket.io')(http, {
 
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
     console.log('Socket ID : ', socket.id)
 
-    //'message' event is received by our server
     socket.on('message', (data) => {
-        console.log(data);
-        //server ‘emits’ or sends an event out to all users connected
-        // to this Socket instance
-        io.emit('message', `${socket.id.substr(0, 2)} said ${data.message}`);
+        io.emit('message', data);
     });
 });
 
 http.listen(3001, () => {
-    console.log('listening on port :3001');
+    console.log('listening on port : 3001');
 });
 
 
